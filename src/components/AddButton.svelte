@@ -6,7 +6,7 @@
 		addScoreHelper,
 		calculatorStore,
 		subtractScoreHelper
-	} from '../store/Calculator.Service';
+	} from '../store/Calculator';
 
 	export let item: Score;
 

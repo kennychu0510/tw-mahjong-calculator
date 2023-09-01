@@ -289,7 +289,6 @@
 		"description": "不是莊家獨有的牌類，閒家在四隻牌內吃糊",
 		"type": "normal"
 	},
-	{ "name": "下列項目需即時付錢：", "points": "", "description": "", "type": "special" },
 	{
 		"name": "追",
 		"points": "一個底",

@@ -2,7 +2,7 @@
 	import { Button, Space, Text } from '@svelteuidev/core';
 	import { spring } from 'svelte/motion';
 	import { fade, fly } from 'svelte/transition';
-	import { calculatorStore } from '../store/Calculator.Service';
+	import { calculatorStore } from '../store/Calculator';
 	import ScoreBadge from './ScoreBadge.svelte';
 	import Icon from '@iconify/svelte';
 
@@ -55,7 +55,13 @@
 
 {#if opened}
 	<div class="backdrop" transition:fade on:click={closeModal}>
-		<div class="modal" transition:fly={{ y: 50 }} on:introstart on:outroend>
+		<div
+			class="modal"
+			transition:fly={{ y: 50 }}
+			on:introstart
+			on:outroend
+			on:click|stopPropagation={() => {}}
+		>
 			<div class="content-container">
 				<Text size="xl">{totalScore}</Text>
 				<Space w={5} />

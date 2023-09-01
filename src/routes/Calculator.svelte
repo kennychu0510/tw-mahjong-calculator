@@ -5,7 +5,12 @@
 	import AddButton from '../components/AddButton.svelte';
 	import Icon from '@iconify/svelte';
 	let searchValue = '';
-	$: displayItems = filterItems(data, searchValue);
+	const sortedData = data.sort((a, b) => {
+		if (!b.points && !b.description) return -1;
+		if (isNaN(Number(b.points))) return -1;
+		return Number(a.points) - Number(b.points);
+	});
+	$: displayItems = filterItems(sortedData, searchValue);
 	const englishCharacterRegex = new RegExp(/^[a-z][a-z0-9]*$/i);
 	function filterItems(data: Score[], searchValue: string) {
 		if (!searchValue) return data;
@@ -19,7 +24,7 @@
 <div class="search-bar">
 	<input bind:value={searchValue} />
 	<div class="search-icon">
-		<Icon icon="material-symbols:search" width='20' height='20' />
+		<Icon icon="material-symbols:search" width="20" height="20" />
 	</div>
 </div>
 <div class="calculator">
@@ -43,38 +48,30 @@
 			<div class="row-item" />
 		</Grid.Col>
 		{#each displayItems as item}
-			{#if !item.points && !item.description}
-				<Grid.Col span={12}>
-					<div class="row-item">
-						<Text weight="bold">{item.name}</Text>
-					</div>
-				</Grid.Col>
-			{:else}
-				<Grid.Col span={3}>
-					<div class="row-item">
-						<Text>{item.name}</Text>
-					</div>
-				</Grid.Col>
-				<Grid.Col span={2}>
-					<div class="row-item points">
-						<Text>{item.points}</Text>
-					</div>
-				</Grid.Col>
-				<Grid.Col span={5}>
-					<div class="row-item">
-						<Text>{item.description}</Text>
-					</div>
-				</Grid.Col>
-				<Grid.Col span={2}>
-					<div class="row-item center">
-						{#if !isNaN(Number(item.points)) && !!item.points}
-							<div class="add-button-container">
-								<AddButton {item} />
-							</div>
-						{/if}
-					</div>
-				</Grid.Col>
-			{/if}
+			<Grid.Col span={3}>
+				<div class="row-item">
+					<Text>{item.name}</Text>
+				</div>
+			</Grid.Col>
+			<Grid.Col span={2}>
+				<div class="row-item points">
+					<Text>{item.points}</Text>
+				</div>
+			</Grid.Col>
+			<Grid.Col span={5}>
+				<div class="row-item">
+					<Text>{item.description}</Text>
+				</div>
+			</Grid.Col>
+			<Grid.Col span={2}>
+				<div class="row-item center">
+					{#if !isNaN(Number(item.points)) && !!item.points}
+						<div class="add-button-container">
+							<AddButton {item} />
+						</div>
+					{/if}
+				</div>
+			</Grid.Col>
 		{/each}
 	</Grid>
 </div>
@@ -122,7 +119,6 @@
 	.search-icon {
 		top: 5px;
 		right: 8px;
-		position: absolute
-
+		position: absolute;
 	}
 </style>
