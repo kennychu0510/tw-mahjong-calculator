@@ -1,6 +1,6 @@
 <script>
 	import Header from './Header.svelte';
-	import ScoreBoard from './ScoreBoard.svelte';
+	import ScoreBoard from '../components/ScoreBoard.svelte';
 	import './styles.css';
 	import { SvelteUIProvider } from '@svelteuidev/core';
 </script>
@@ -13,9 +13,7 @@
 			<slot />
 		</main>
 
-		<footer>
-			<p>番數表: <a href="http://www.twmahjong.com/">http://www.twmahjong.com/</a></p>
-		</footer>
+		
 		<ScoreBoard/>
 	</div>
 </SvelteUIProvider>
@@ -37,17 +35,7 @@
 		box-sizing: border-box;
 	}
 
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
+	
 
 	@media (min-width: 480px) {
 		footer {
