@@ -5,8 +5,8 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>Mahjong Calculator</title>
+	<meta name="Mahjong calculator" content="TW Mahjong Calculator" />
 </svelte:head>
 
 <section>

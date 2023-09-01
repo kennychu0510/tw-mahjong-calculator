@@ -4,10 +4,11 @@
 	import Result from './Result.svelte';
 	import { Text } from '@svelteuidev/core';
 	import { openSettings } from '../../store/Settings';
+
 </script>
 
 <div>
-	{#if $gameStore.players === null}
+	{#if Object.values($gameStore.players).every(player => !player.name)}
 		<div class="no-players-container">
 			<Text underline={true} on:click={openSettings}>請輸入玩家</Text>
 		</div>

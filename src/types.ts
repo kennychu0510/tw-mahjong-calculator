@@ -5,10 +5,6 @@ export type Score = {
 	type: string;
 };
 
-export type ICalculator = {
-	scores: Score[];
-};
-
 export enum Position {
 	N = 'N',
 	E = 'E',
@@ -44,7 +40,7 @@ export interface IGame {
 		[Position.E]: IPlayer;
 		[Position.S]: IPlayer;
 		[Position.W]: IPlayer;
-	} | null;
+	};
 	results: GameScore[];
 }
 

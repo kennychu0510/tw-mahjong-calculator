@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { Button } from '@svelteuidev/core';
-	import type { Score } from '../types';
-	import { get } from 'svelte/store';
 	import {
 		addScoreHelper,
 		calculatorStore,
 		subtractScoreHelper
 	} from '../store/Calculator';
+	import type { Score } from '../types';
 
 	export let item: Score;
 

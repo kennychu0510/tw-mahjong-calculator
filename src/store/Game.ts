@@ -18,61 +18,60 @@ export const gameStore = writable<IGame>({
 		W: {
 			key: Position.W,
 			name: 'Ho'
-		},
+		}
 	},
 	results: [
 		{
-			   round: 1,
-				 winningCombo: [],
-				 winningDetails: {
-					mode: 'receive',
+			round: 1,
+			winningCombo: [],
+			winningDetails: {
+				mode: 'receive',
+				playerKey: Position.N
+			},
+			playerScores: [
+				{
 					playerKey: Position.N,
+					value: 100
 				},
-				 playerScores: [
-					{
-						playerKey: Position.N,
-						value: 100,
-						
-					},
-					{
-						playerKey: Position.E,
-						value: 0,
-					},
-					{
-						playerKey: Position.S,
-						value: 50,
-					},
-					{
-						playerKey: Position.W,
-						value: 50,
-					},
-				 ]
+				{
+					playerKey: Position.E,
+					value: 0
+				},
+				{
+					playerKey: Position.S,
+					value: 50
+				},
+				{
+					playerKey: Position.W,
+					value: 50
+				}
+			]
 		},
 		{
-			   round: 2,
-				 winningCombo: [],
-				 winningDetails: {
-					mode: 'receive',
-					playerKey: Position.E,
+			round: 2,
+			winningCombo: [],
+			winningDetails: {
+				mode: 'receive',
+				playerKey: Position.E
+			},
+			playerScores: [
+				{
+					playerKey: Position.N,
+					value: -100
 				},
-				 playerScores: [
-					{
-						playerKey: Position.N,
-						value: -100,
-					},
-					{
-						playerKey: Position.E,
-						value: 20,
-					},
-					{
-						playerKey: Position.S,
-						value: 0,
-					},
-					{
-						playerKey: Position.W,
-						value: 20,
-					},
-				 ]
-		},
+				{
+					playerKey: Position.E,
+					value: 20
+				},
+				{
+					playerKey: Position.S,
+					value: 0
+				},
+				{
+					playerKey: Position.W,
+					value: 20
+				}
+			]
+		}
 	]
 });

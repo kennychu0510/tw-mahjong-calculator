@@ -8,12 +8,18 @@
 		Space,
 		Text,
 		TextInput,
-		UnstyledButton
+		UnstyledButton,
+		Switch,
+
+		Checkbox
+
 	} from '@svelteuidev/core';
 	import Color from '../colors';
 	import { gameStore } from '../store/Game';
 	import { Position, type IPlayer, type IGame } from '../types';
 	import { Settings, closeSettings, openSettings } from '../store/Settings';
+	import { onMount } from 'svelte';
+	import { fly, slide } from 'svelte/transition';
 
 	let playerN = '';
 	let playerE = '';
@@ -21,8 +27,11 @@
 	let playerW = '';
 	let amountPerF = 1;
 	let amountPerD = 1;
+	let scrolling = false;
 
 	let confirmModalOpened = false;
+	let timeout: any;
+	let scrollY: number;
 
 	function closeModal() {
 		closeSettings();
@@ -70,22 +79,60 @@
 
 	function onConfirmReset() {
 		gameStore.set({
-			players: null,
+			players: {
+				N: {
+					key: Position.N,
+					name: ''
+				},
+				E: {
+					key: Position.E,
+					name: ''
+				},
+				S: {
+					key: Position.S,
+					name: ''
+				},
+				W: {
+					key: Position.W,
+					name: ''
+				}
+			},
 			results: []
 		});
 		onCloseConfirmation();
 	}
+
+	function handleScroll() {
+		if (scrollY < 100) {
+			scrolling = false;
+			return;
+		}
+		scrolling = true;
+
+		// Your scrolling function here
+		// ...
+		clearTimeout(timeout);
+		timeout = setTimeout(() => {
+			scrolling = false;
+
+			// Your function when scrolling stops here
+			// ...
+		}, 150); // Adjust the debounce timeout as needed
+	}
+
+	onMount(() => {
+		window.addEventListener('scroll', handleScroll);
+	});
 </script>
+
+<svelte:window bind:scrollY />
 
 <header>
 	<div class="corner">
 		<!-- <img src={mahjong} alt="mahjong" /> -->
 	</div>
 
-	<nav>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-		</svg>
+	<nav style="--nav-opacity: {scrolling ? 0.5 : 1}">
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">計番</a>
@@ -94,9 +141,6 @@
 				<a href="/scores">計分</a>
 			</li>
 		</ul>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-		</svg>
 	</nav>
 
 	<div class="corner">
@@ -114,9 +158,9 @@
 	<Space h={5} />
 	<TextInput label={`玩家-北`} bind:value={playerN} />
 	<Space h={5} />
-	<NumberInput label={'幾多錢一番'} bind:value={amountPerF} />
+	<!-- <NumberInput label={'幾多錢一番'} bind:value={amountPerF} />
 	<Space h={5} />
-	<NumberInput label={'幾多錢一底'} bind:value={amountPerD} />
+	<NumberInput label={'幾多錢一底'} bind:value={amountPerD} /> -->
 	<div class="button-container">
 		<Button color="red" on:click={onShowConfirmation}
 			><Icon icon="tabler:trash" width="20" height="20" /></Button
@@ -128,7 +172,9 @@
 </Modal>
 <Modal opened={confirmModalOpened} on:close={onCloseConfirmation} centered={true}>
 	<div class="confirmation-content">
-		<Text>你確認要重置所有資料?</Text>
+		<Text>你確認要重新開局?</Text>
+		<Space h={10}/>
+		<Checkbox label={'保留玩家名？'} />
 		<div class="button-container">
 			<Button on:click={onCloseConfirmation}
 				><Icon icon="icon-park-outline:back" width="20" height="20" /></Button
@@ -159,9 +205,18 @@
 	}
 
 	nav {
+		position: fixed;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
 		display: flex;
 		justify-content: center;
-		--background: rgba(255, 255, 255, 0.7);
+		background-color: white;
+		border-radius: 0 0 10px 10px;
+		height: 3em;
+		padding: 0 10px;
+		z-index: 200;
+		opacity: var(--nav-opacity);
 	}
 
 	svg {
@@ -178,7 +233,6 @@
 		position: relative;
 		padding: 0;
 		margin: 0;
-		height: 3em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
