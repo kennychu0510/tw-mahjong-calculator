@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { Score } from '../Calculator.types';
+import type { Score } from '../types';
 
 export const calculatorStore = writable<{
 	scores: Map<string, Score>;

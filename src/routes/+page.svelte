@@ -1,6 +1,7 @@
 <script>
+	import ScoreBoard from '../components/ScoreBoard.svelte';
 	import ScrollToTop from '../components/ScrollToTop.svelte';
-import Calculator from './Calculator.svelte';
+	import Calculator from './Calculator.svelte';
 </script>
 
 <svelte:head>
@@ -10,7 +11,9 @@ import Calculator from './Calculator.svelte';
 
 <section>
 	<Calculator />
-	<ScrollToTop/>
+	<ScrollToTop />
+	<ScoreBoard/>
+
 </section>
 <footer>
 	<p>番數表: <a href="http://www.twmahjong.com/">http://www.twmahjong.com/</a></p>
@@ -22,6 +25,8 @@ import Calculator from './Calculator.svelte';
 		flex-direction: column;
 		align-items: center;
 		flex: 0.6;
+		max-width: 1440px;
+		margin: 0 auto;
 	}
 
 	h1 {

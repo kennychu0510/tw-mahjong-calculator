@@ -1,13 +1,89 @@
-<script>
-	import { setContext } from 'svelte';
+<script lang="ts">
 	import { page } from '$app/stores';
-	import mahjong from '$lib/images/mahjong.png';
+	import Icon from '@iconify/svelte';
+	import {
+		Button,
+		Modal,
+		NumberInput,
+		Space,
+		Text,
+		TextInput,
+		UnstyledButton
+	} from '@svelteuidev/core';
+	import Color from '../colors';
+	import { gameStore } from '../store/Game';
+	import { Position, type IPlayer } from '../types';
+	import { Settings, closeSettings, openSettings } from '../store/Settings';
 
+	let playerN = '';
+	let playerE = '';
+	let playerS = '';
+	let playerW = '';
+	let amountPerF = 1;
+	let amountPerD = 1;
+
+	let confirmModalOpened = false;
+
+	function closeModal() {
+		closeSettings()
+	}
+
+	function openModal() {
+		openSettings()
+	}
+
+	function onShowConfirmation() {
+		closeSettings()
+		confirmModalOpened = true;
+	}
+
+	function onCloseConfirmation() {
+		openSettings()
+		confirmModalOpened = false;
+	}
+
+	function onSave() {
+		const players: IPlayer[] = [
+			{
+				key: Position.N,
+				name: playerN,
+				position: Position.N
+			},
+			{
+				key: Position.E,
+				name: playerE,
+				position: Position.E
+			},
+			{
+				key: Position.S,
+				name: playerS,
+				position: Position.S
+			},
+			{
+				key: Position.W,
+				name: playerW,
+				position: Position.W
+			}
+		];
+		gameStore.update((state) => ({
+			...state,
+			players: players
+		}));
+		closeModal();
+	}
+
+	function onConfirmReset() {
+		gameStore.set({
+			players: [],
+			results: []
+		});
+		onCloseConfirmation();
+	}
 </script>
 
 <header>
 	<div class="corner">
-			<img src={mahjong} alt="mahjong" />
+		<!-- <img src={mahjong} alt="mahjong" /> -->
 	</div>
 
 	<nav>
@@ -18,8 +94,8 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">計番</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">計分</a>
+			<li aria-current={$page.url.pathname === '/scores' ? 'page' : undefined}>
+				<a href="/scores">計分</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -28,9 +104,37 @@
 	</nav>
 
 	<div class="corner">
-
+		<UnstyledButton on:click={openModal}>
+			<Icon icon="tabler:settings" width="30" height="30" color={Color.orange} />
+		</UnstyledButton>
 	</div>
 </header>
+<Modal opened={$Settings.isOpened} on:close={closeModal}>
+	<TextInput label={`玩家-東`} bind:value={playerE} />
+	<Space h={5} />
+	<TextInput label={`玩家-南`} bind:value={playerS} />
+	<Space h={5} />
+	<TextInput label={`玩家-西`} bind:value={playerW} />
+	<Space h={5} />
+	<TextInput label={`玩家-北`} bind:value={playerN} />
+	<Space h={5} />
+	<NumberInput label={'幾多錢一番'} bind:value={amountPerF} />
+	<Space h={5} />
+	<NumberInput label={'幾多錢一底'} bind:value={amountPerD} />
+	<div class="button-container">
+		<Button color="red" on:click={onShowConfirmation}><Icon icon="tabler:trash" width="20" height="20" /></Button>
+		<Button color="green" on:click={onSave}><Icon icon="charm:tick" width="20" height="20"/></Button>
+	</div>
+</Modal>
+<Modal opened={confirmModalOpened} on:close={onCloseConfirmation} centered={true}>
+	<div class="confirmation-content">
+		<Text>你確認要重置所有資料?</Text>
+		<div class="button-container">
+			<Button on:click={onCloseConfirmation}><Icon icon="icon-park-outline:back" width="20" height="20"/></Button>
+			<Button color="red" on:click={onConfirmReset}><Icon icon="tabler:trash" width="20" height="20" /></Button>
+		</div>
+	</div>
+</Modal>
 
 <style>
 	header {
@@ -112,5 +216,16 @@
 
 	a:hover {
 		color: var(--color-theme-1);
+	}
+
+	.button-container {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 20px;
+	}
+
+	.confirmation-content {
+		display: flex;
+		flex-direction: column;
 	}
 </style>

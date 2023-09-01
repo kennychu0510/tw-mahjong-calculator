@@ -11,10 +11,7 @@
 
 		<main>
 			<slot />
-		</main>
-
-		
-		<ScoreBoard/>
+		</main>		
 	</div>
 </SvelteUIProvider>
 

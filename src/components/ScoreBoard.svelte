@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { Space, Text, Modal, Flex , createStyles} from '@svelteuidev/core';
-	import { calculatorStore } from '../routes/Calculator.Service';
+	import { Button, Space, Text } from '@svelteuidev/core';
 	import { spring } from 'svelte/motion';
+	import { fade, fly } from 'svelte/transition';
+	import { calculatorStore } from '../store/Calculator.Service';
 	import ScoreBadge from './ScoreBadge.svelte';
-	import { get } from 'svelte/store';
-
-
+	import Icon from '@iconify/svelte';
 
 	type ScoreList = {
 		name: string;
@@ -25,7 +24,7 @@
 				points: Number(item.points)
 			});
 		}
-		listOfScores = list.sort((a, b) => a.points - b.points)
+		listOfScores = list.sort((a, b) => a.points - b.points);
 	});
 
 	$: displayedScore.set(totalScore);
@@ -38,7 +37,12 @@
 		opened = false;
 	}
 
-
+	function reset() {
+		calculatorStore.set({
+			scores: new Map(),
+			totalPoints: 0
+		});
+	}
 </script>
 
 <div class="score-board" on:click={openModal}>
@@ -49,21 +53,29 @@
 	</div>
 </div>
 
-<Modal {opened} on:close={closeModal}>
-	<div class="content-container">
-		<Text size="xl">{totalScore}</Text>
-		<Space w={5} />
-		<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}>番</Text>
+{#if opened}
+	<div class="backdrop" transition:fade on:click={closeModal}>
+		<div class="modal" transition:fly={{ y: 50 }} on:introstart on:outroend>
+			<div class="content-container">
+				<Text size="xl">{totalScore}</Text>
+				<Space w={5} />
+				<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}
+					>番</Text
+				>
+			</div>
+			<div class="score-list-container">
+				{#each listOfScores as score}
+					<ScoreBadge {score} />
+				{/each}
+			</div>
+			<div class="button-container">
+				<Button on:click={reset} color="red" size="sm"
+					><Icon icon="tabler:trash" width="20" height="20" /></Button
+				>
+			</div>
+		</div>
 	</div>
-	<div class="score-list-container">
-		<!-- <Flex gap={10} wrap={true}> -->
-			{#each listOfScores as score}
-				<ScoreBadge {score}/>
-			{/each}
-		<!-- </Flex> -->
-
-	</div>
-</Modal>
+{/if}
 
 <style>
 	.score-board {
@@ -84,7 +96,35 @@
 		opacity: 0.9;
 	}
 
-	.item {
+	.modal {
+		position: fixed;
+		top: 50%;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		background-color: #fff;
 		padding: 10px;
+		overflow-y: auto;
+	}
+
+	.backdrop {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 1000;
+	}
+
+	.score-list-container {
+		flex-grow: 1;
+	}
+	.button-container {
+		padding: 10px;
+		display: flex;
+		justify-content: space-between;
 	}
 </style>
