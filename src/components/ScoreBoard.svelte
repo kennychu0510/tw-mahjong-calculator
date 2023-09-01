@@ -5,18 +5,16 @@
 	import { calculatorStore } from '../store/Calculator';
 	import ScoreBadge from './ScoreBadge.svelte';
 	import Icon from '@iconify/svelte';
+	import { gameStore } from '../store/Game';
 
 	type ScoreList = {
 		name: string;
 		points: number;
 	}[];
-	let totalScore = 0;
 	let opened = false;
 	let listOfScores: ScoreList = [];
-	const displayedScore = spring();
 
 	calculatorStore.subscribe((store) => {
-		totalScore = store.totalPoints;
 		const list: ScoreList = [];
 		for (let [key, item] of store.scores) {
 			list.push({
@@ -26,8 +24,6 @@
 		}
 		listOfScores = list.sort((a, b) => a.points - b.points);
 	});
-
-	$: displayedScore.set(totalScore);
 
 	function openModal() {
 		opened = true;
@@ -43,11 +39,13 @@
 			totalPoints: 0
 		});
 	}
+
+	function addScore() {}
 </script>
 
 <div class="score-board" on:click={openModal}>
 	<div class="content-container">
-		<Text size="xl">{totalScore}</Text>
+		<Text size="xl">{$calculatorStore.totalPoints}</Text>
 		<Space w={5} />
 		<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}>番</Text>
 	</div>
@@ -63,7 +61,7 @@
 			on:click|stopPropagation={() => {}}
 		>
 			<div class="content-container">
-				<Text size="xl">{totalScore}</Text>
+				<Text size="xl">{$calculatorStore.totalPoints}</Text>
 				<Space w={5} />
 				<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}
 					>番</Text
@@ -78,6 +76,11 @@
 				<Button on:click={reset} color="red" size="sm"
 					><Icon icon="tabler:trash" width="20" height="20" /></Button
 				>
+				{#if $gameStore.players !== null && $calculatorStore.scores.size > 0}
+					<Button on:click={addScore} color="green" size="sm"
+						><Icon icon="fluent:add-12-filled" /></Button
+					>
+				{/if}
 			</div>
 		</div>
 	</div>

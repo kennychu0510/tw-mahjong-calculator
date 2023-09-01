@@ -17,31 +17,35 @@ export enum Position {
 }
 
 export type PlayerScore = {
-  value: number;
-  playerKey: string
-}
+	value: number;
+	playerKey: string;
+};
 
 type WinningDetails = {
-	mode: 'self' | 'receive',
+	mode: 'self' | 'receive';
 	playerKey: string;
-}
+};
 
 export type GameScore = {
 	round: number;
-  winningCombo: Score[];
-  playerScores: PlayerScore[];
+	winningCombo: Score[];
+	playerScores: PlayerScore[];
 	winningDetails: WinningDetails;
 };
 
 export interface IPlayer {
-	position: Position;
 	name: string;
-  key: string;
+	key: string;
 }
 
 export interface IGame {
-	players: IPlayer[];
-  results: GameScore[];
+	players: {
+		[Position.N]: IPlayer;
+		[Position.E]: IPlayer;
+		[Position.S]: IPlayer;
+		[Position.W]: IPlayer;
+	} | null;
+	results: GameScore[];
 }
 
 export interface ISettings {

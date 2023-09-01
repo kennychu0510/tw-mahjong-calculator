@@ -2,28 +2,24 @@ import { writable } from 'svelte/store';
 import { Position, type IGame } from '../types';
 
 export const gameStore = writable<IGame>({
-	players: [
-		{
+	players: {
+		N: {
 			key: Position.N,
-			name: 'north',
-			position: Position.N
+			name: 'Chan'
 		},
-		{
+		E: {
 			key: Position.E,
-			name: 'east',
-			position: Position.E
+			name: 'Wong'
 		},
-		{
+		S: {
 			key: Position.S,
-			name: 'south',
-			position: Position.S
+			name: 'Lee'
 		},
-		{
+		W: {
 			key: Position.W,
-			name: 'west',
-			position: Position.W
+			name: 'Ho'
 		},
-	],
+	},
 	results: [
 		{
 			   round: 1,

@@ -10,13 +10,19 @@
 
 <tr>
 	<td>{gameScore.round}</td>
-	{#each $gameStore.players as player}
-		{#if isWinner(player)}
-			<td class="winner">{gameScore.playerScores.find((item) => item.playerKey === player.key)?.value}</td>
-		{:else}
-			<td class="loser">{gameScore.playerScores.find((item) => item.playerKey === player.key)?.value}</td>
-		{/if}
-	{/each}
+	{#if $gameStore.players !== null}
+		{#each Object.values($gameStore.players) as player}
+			{#if isWinner(player)}
+				<td class="winner"
+					>{gameScore.playerScores.find((item) => item.playerKey === player.key)?.value}</td
+				>
+			{:else}
+				<td class="loser"
+					>{gameScore.playerScores.find((item) => item.playerKey === player.key)?.value}</td
+				>
+			{/if}
+		{/each}
+	{/if}
 </tr>
 
 <style>
@@ -26,12 +32,12 @@
 		padding: 10px 0;
 	}
 
-  .winner {
-    color: #27d841;
-    font-weight: bold;
-  }
+	.winner {
+		color: #27d841;
+		font-weight: bold;
+	}
 
-  .loser {
-    color: #d42b2c;
-  }
+	.loser {
+		color: #d42b2c;
+	}
 </style>

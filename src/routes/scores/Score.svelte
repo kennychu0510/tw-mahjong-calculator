@@ -7,7 +7,7 @@
 </script>
 
 <div>
-	{#if $gameStore.players.length === 0}
+	{#if $gameStore.players === null}
 		<div class="no-players-container">
 			<Text underline={true} on:click={openSettings}>請輸入玩家</Text>
 		</div>
@@ -15,7 +15,7 @@
 		<table>
 			<tr>
 				<th>回合</th>
-				{#each $gameStore.players as player}
+				{#each Object.values($gameStore.players) as player}
 					<th>{player.name}</th>
 				{/each}
 			</tr>

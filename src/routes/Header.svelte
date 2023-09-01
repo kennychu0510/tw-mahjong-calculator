@@ -12,7 +12,7 @@
 	} from '@svelteuidev/core';
 	import Color from '../colors';
 	import { gameStore } from '../store/Game';
-	import { Position, type IPlayer } from '../types';
+	import { Position, type IPlayer, type IGame } from '../types';
 	import { Settings, closeSettings, openSettings } from '../store/Settings';
 
 	let playerN = '';
@@ -25,46 +25,42 @@
 	let confirmModalOpened = false;
 
 	function closeModal() {
-		closeSettings()
+		closeSettings();
 	}
 
 	function openModal() {
-		openSettings()
+		openSettings();
 	}
 
 	function onShowConfirmation() {
-		closeSettings()
+		closeSettings();
 		confirmModalOpened = true;
 	}
 
 	function onCloseConfirmation() {
-		openSettings()
+		openSettings();
 		confirmModalOpened = false;
 	}
 
 	function onSave() {
-		const players: IPlayer[] = [
-			{
-				key: Position.N,
+		const players: IGame['players'] = {
+			[Position.N]: {
 				name: playerN,
-				position: Position.N
+				key: Position.N
 			},
-			{
-				key: Position.E,
+			[Position.E]: {
 				name: playerE,
-				position: Position.E
+				key: Position.E
 			},
-			{
-				key: Position.S,
+			[Position.S]: {
 				name: playerS,
-				position: Position.S
+				key: Position.S
 			},
-			{
-				key: Position.W,
+			[Position.W]: {
 				name: playerW,
-				position: Position.W
+				key: Position.W
 			}
-		];
+		};
 		gameStore.update((state) => ({
 			...state,
 			players: players
@@ -74,7 +70,7 @@
 
 	function onConfirmReset() {
 		gameStore.set({
-			players: [],
+			players: null,
 			results: []
 		});
 		onCloseConfirmation();
@@ -122,16 +118,24 @@
 	<Space h={5} />
 	<NumberInput label={'幾多錢一底'} bind:value={amountPerD} />
 	<div class="button-container">
-		<Button color="red" on:click={onShowConfirmation}><Icon icon="tabler:trash" width="20" height="20" /></Button>
-		<Button color="green" on:click={onSave}><Icon icon="charm:tick" width="20" height="20"/></Button>
+		<Button color="red" on:click={onShowConfirmation}
+			><Icon icon="tabler:trash" width="20" height="20" /></Button
+		>
+		<Button color="green" on:click={onSave}
+			><Icon icon="charm:tick" width="20" height="20" /></Button
+		>
 	</div>
 </Modal>
 <Modal opened={confirmModalOpened} on:close={onCloseConfirmation} centered={true}>
 	<div class="confirmation-content">
 		<Text>你確認要重置所有資料?</Text>
 		<div class="button-container">
-			<Button on:click={onCloseConfirmation}><Icon icon="icon-park-outline:back" width="20" height="20"/></Button>
-			<Button color="red" on:click={onConfirmReset}><Icon icon="tabler:trash" width="20" height="20" /></Button>
+			<Button on:click={onCloseConfirmation}
+				><Icon icon="icon-park-outline:back" width="20" height="20" /></Button
+			>
+			<Button color="red" on:click={onConfirmReset}
+				><Icon icon="tabler:trash" width="20" height="20" /></Button
+			>
 		</div>
 	</div>
 </Modal>
