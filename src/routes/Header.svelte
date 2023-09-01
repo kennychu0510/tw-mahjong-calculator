@@ -10,9 +10,7 @@
 		TextInput,
 		UnstyledButton,
 		Switch,
-
 		Checkbox
-
 	} from '@svelteuidev/core';
 	import Color from '../colors';
 	import { gameStore } from '../store/Game';
@@ -21,13 +19,14 @@
 	import { onMount } from 'svelte';
 	import { fly, slide } from 'svelte/transition';
 
-	let playerN = '';
-	let playerE = '';
-	let playerS = '';
-	let playerW = '';
+	$: playerN = $gameStore.players.N.name;
+	$: playerE = $gameStore.players.E.name;
+	$: playerS = $gameStore.players.S.name;
+	$: playerW = $gameStore.players.W.name;
 	let amountPerF = 1;
 	let amountPerD = 1;
 	let scrolling = false;
+	let keepPlayerNames = true;
 
 	let confirmModalOpened = false;
 	let timeout: any;
@@ -78,27 +77,34 @@
 	}
 
 	function onConfirmReset() {
-		gameStore.set({
-			players: {
-				N: {
-					key: Position.N,
-					name: ''
+		if (keepPlayerNames) {
+			gameStore.update((state) => ({
+				...state,
+				results: []
+			}));
+		} else {
+			gameStore.set({
+				players: {
+					N: {
+						key: Position.N,
+						name: ''
+					},
+					E: {
+						key: Position.E,
+						name: ''
+					},
+					S: {
+						key: Position.S,
+						name: ''
+					},
+					W: {
+						key: Position.W,
+						name: ''
+					}
 				},
-				E: {
-					key: Position.E,
-					name: ''
-				},
-				S: {
-					key: Position.S,
-					name: ''
-				},
-				W: {
-					key: Position.W,
-					name: ''
-				}
-			},
-			results: []
-		});
+				results: []
+			});
+		}
 		onCloseConfirmation();
 	}
 
@@ -173,8 +179,8 @@
 <Modal opened={confirmModalOpened} on:close={onCloseConfirmation} centered={true}>
 	<div class="confirmation-content">
 		<Text>你確認要重新開局?</Text>
-		<Space h={10}/>
-		<Checkbox label={'保留玩家名？'} />
+		<Space h={10} />
+		<Checkbox label={'保留玩家名？'} bind:checked={keepPlayerNames} />
 		<div class="button-container">
 			<Button on:click={onCloseConfirmation}
 				><Icon icon="icon-park-outline:back" width="20" height="20" /></Button

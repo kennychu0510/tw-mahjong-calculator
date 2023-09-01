@@ -22,7 +22,7 @@
         if (player.key === winnerKey) {
           value = $calculatorStore.totalPoints
         } else {
-          value = -$calculatorStore.totalPoints/3
+          value = Math.round((-$calculatorStore.totalPoints/3 + Number.EPSILON) * 100) / 100
         }
       } else {
         if (player.key === winnerKey) {

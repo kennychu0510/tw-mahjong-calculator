@@ -114,10 +114,12 @@
 		border: none;
 		border-radius: 5px;
 		padding-right: 30px;
+		outline: orange;
+		height: 28px;
 	}
 
 	.search-icon {
-		top: 7px;
+		top: 5px;
 		right: 8px;
 		position: absolute;
 	}
