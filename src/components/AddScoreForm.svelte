@@ -6,6 +6,7 @@
 	import Icon from '@iconify/svelte';
 	import type { IPlayer, PlayerScore } from '../types';
 	import Color from '../colors';
+	import { goto } from '$app/navigation';
 
 	export let onBack: () => void;
   export let onClose: () => void;
@@ -46,7 +47,8 @@
 					playerScores: playerScores,
 					winningDetails: {
 						playerKey: winnerKey,
-						mode
+						mode,
+            loser: loserKey
 					}
 				}
 			]
@@ -56,12 +58,13 @@
       totalPoints: 0,
     })
     onClose();
+    goto('/scores')
+
 	}
 
 	function onChangeTab(event: any) {
 		eatMode = event.detail.index;
 	}
-	console.log(winnerKey);
 </script>
 
 <div in:fly={{ x: 100 }} class="root">

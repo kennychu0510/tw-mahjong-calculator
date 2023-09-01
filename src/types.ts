@@ -20,6 +20,7 @@ export type PlayerScore = {
 type WinningDetails = {
 	mode: 'self' | 'receive';
 	playerKey: string;
+	loser?: string;
 };
 
 export type GameScore = {

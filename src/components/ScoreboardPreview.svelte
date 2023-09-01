@@ -12,7 +12,11 @@
 		name: item.name,
 		points: Number(item.points)
 	}));
-  $: totalScore = listOfScores?.reduce((a, b) => a + b.points, 0)
+	$: totalScore = listOfScores?.reduce((a, b) => a + b.points, 0);
+	$: playerKey = gameRound?.winningDetails.playerKey as keyof typeof $gameStore.players;
+	$: eatType = gameRound?.winningDetails.mode === 'self' ? '自摸' : '食';
+	$: loserKey = gameRound?.winningDetails.loser as keyof typeof $gameStore.players;
+	$: loser = loserKey ? $gameStore.players[loserKey].name : '';
 </script>
 
 <div class="backdrop" transition:fade on:click={onClose}>
@@ -25,12 +29,27 @@
 	>
 		{#if !!gameRound && !!listOfScores}
 			<div class="score-summary" in:fly={{ x: -100 }}>
+				<div class="center">
+					<Text>
+						第{round}局
+					</Text>
+				</div>
 				<div class="content-container">
-					<Text size="xl">{totalScore}</Text>
+					<Text size="xl">{$gameStore.players[playerKey].name}</Text>
 					<Space w={5} />
 					<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}
-						>番</Text
+						>{eatType}</Text
+            >
+            <Space w={5} />
+					{#if gameRound.winningDetails.mode === 'receive'}
+						<Text size="xl">{loser}</Text>
+            <Space w={5} />
+					{/if}
+					<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}
+						>{totalScore}</Text
 					>
+					<Space w={5} />
+					<Text size="xl">番</Text>
 				</div>
 				<div class="score-list-container">
 					{#each listOfScores as score}
@@ -43,6 +62,10 @@
 </div>
 
 <style>
+	.center {
+		display: flex;
+		justify-content: center;
+	}
 	.score-board {
 		position: fixed;
 		bottom: 0;

@@ -5,73 +5,20 @@ export const gameStore = writable<IGame>({
 	players: {
 		N: {
 			key: Position.N,
-			name: 'Chan'
+			name: ''
 		},
 		E: {
 			key: Position.E,
-			name: 'Wong'
+			name: ''
 		},
 		S: {
 			key: Position.S,
-			name: 'Lee'
+			name: ''
 		},
 		W: {
 			key: Position.W,
-			name: 'Ho'
+			name: ''
 		}
 	},
-	results: [
-		{
-			round: 1,
-			winningCombo: [],
-			winningDetails: {
-				mode: 'receive',
-				playerKey: Position.N
-			},
-			playerScores: [
-				{
-					playerKey: Position.N,
-					value: 100
-				},
-				{
-					playerKey: Position.E,
-					value: 0
-				},
-				{
-					playerKey: Position.S,
-					value: 50
-				},
-				{
-					playerKey: Position.W,
-					value: 50
-				}
-			]
-		},
-		{
-			round: 2,
-			winningCombo: [],
-			winningDetails: {
-				mode: 'receive',
-				playerKey: Position.E
-			},
-			playerScores: [
-				{
-					playerKey: Position.N,
-					value: -100
-				},
-				{
-					playerKey: Position.E,
-					value: 20
-				},
-				{
-					playerKey: Position.S,
-					value: 0
-				},
-				{
-					playerKey: Position.W,
-					value: 20
-				}
-			]
-		}
-	]
+	results: []
 });
