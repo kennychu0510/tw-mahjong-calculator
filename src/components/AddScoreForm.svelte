@@ -22,7 +22,7 @@
         if (player.key === winnerKey) {
           value = $calculatorStore.totalPoints
         } else {
-          value = -$calculatorStore.totalPoints
+          value = -$calculatorStore.totalPoints/3
         }
       } else {
         if (player.key === winnerKey) {

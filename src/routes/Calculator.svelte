@@ -117,7 +117,7 @@
 	}
 
 	.search-icon {
-		top: 5px;
+		top: 7px;
 		right: 8px;
 		position: absolute;
 	}
