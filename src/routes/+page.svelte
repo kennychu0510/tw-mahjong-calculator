@@ -27,6 +27,8 @@
 		flex: 0.6;
 		max-width: 1440px;
 		margin: 0 auto;
+		width: 100%;
+		flex: 1;
 	}
 
 	h1 {
