@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { Button, Space, Text } from '@svelteuidev/core';
-	import { spring } from 'svelte/motion';
-	import { fade, fly, slide } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { calculatorStore } from '../store/Calculator';
 	import ScoreBadge from './ScoreBadge.svelte';
 	import Icon from '@iconify/svelte';
-	import { gameStore } from '../store/Game';
 	import AddScoreForm from './AddScoreForm.svelte';
 
 	let isAddScorePage = false;

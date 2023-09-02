@@ -2,64 +2,63 @@
 	import { fly } from 'svelte/transition';
 	import { calculatorStore } from '../store/Calculator';
 	import { gameStore } from '../store/Game';
-	import { Button, Text, Space, NativeSelect, Tabs, Checkbox, Radio } from '@svelteuidev/core';
+	import { Button, Text, Space, Tabs } from '@svelteuidev/core';
 	import Icon from '@iconify/svelte';
-	import type { IPlayer, PlayerScore } from '../types';
+	import type { PlayerScore } from '../types';
 	import Color from '../colors';
 	import { goto } from '$app/navigation';
 
 	export let onBack: () => void;
-  export let onClose: () => void;
+	export let onClose: () => void;
 	let eatMode = 0;
 	let winnerKey = '';
 	let loserKey = '';
 
 	function onSave() {
-    const mode = eatMode === 0 ? 'receive' : 'self'
+		const mode = eatMode === 0 ? 'receive' : 'self';
 		const playerScores: PlayerScore[] = Object.values($gameStore.players).map((player) => {
-      let value = 0;
-      if (mode === 'self') {
-        if (player.key === winnerKey) {
-          value = $calculatorStore.totalPoints
-        } else {
-          value = Math.round((-$calculatorStore.totalPoints/3 + Number.EPSILON) * 100) / 100
-        }
-      } else {
-        if (player.key === winnerKey) {
-          value = $calculatorStore.totalPoints
-        } else if (player.key === loserKey){
-          value = -$calculatorStore.totalPoints
-        }
-      }
-      const result = {
-        playerKey: player.key,
-        value
-      }
-			return result
-		})
+			let value = 0;
+			if (mode === 'self') {
+				if (player.key === winnerKey) {
+					value = $calculatorStore.totalPoints;
+				} else {
+					value = Math.round((-$calculatorStore.totalPoints / 3 + Number.EPSILON) * 100) / 100;
+				}
+			} else {
+				if (player.key === winnerKey) {
+					value = $calculatorStore.totalPoints;
+				} else if (player.key === loserKey) {
+					value = -$calculatorStore.totalPoints;
+				}
+			}
+			const result = {
+				playerKey: player.key,
+				value
+			};
+			return result;
+		});
 		gameStore.update((state) => ({
 			...state,
 			results: [
 				...state.results,
 				{
 					round: state.results.length + 1,
-					winningCombo: Array.from($calculatorStore.scores, ([key, score]) => score),
+					winningCombo: Array.from($calculatorStore.scores, ([_, score]) => score),
 					playerScores: playerScores,
 					winningDetails: {
 						playerKey: winnerKey,
 						mode,
-            loser: loserKey
+						loser: loserKey
 					}
 				}
 			]
 		}));
-    calculatorStore.set({
-      scores: new Map(),
-      totalPoints: 0,
-    })
-    onClose();
-    goto('/scores')
-
+		calculatorStore.set({
+			scores: new Map(),
+			totalPoints: 0
+		});
+		onClose();
+		goto('/scores');
 	}
 
 	function onChangeTab(event: any) {
@@ -131,7 +130,7 @@
 		<Button on:click={onBack} size={'sm'}
 			><Icon icon="icon-park-outline:back" width="16" height="16" /></Button
 		>
-		<Button on:click={onSave} size={'sm'} color='green'
+		<Button on:click={onSave} size={'sm'} color="green"
 			><Icon icon="material-symbols:save-outline" width="16" height="16" /></Button
 		>
 	</div>

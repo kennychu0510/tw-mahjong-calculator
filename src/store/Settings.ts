@@ -1,20 +1,18 @@
-import { writable } from "svelte/store";
-import type { ISettings } from "../types";
+import { writable } from 'svelte/store';
+import type { ISettings } from '../types';
 
-export const Settings = writable<ISettings>(
-  {
-    isOpened: false
-  }
-)
+export const Settings = writable<ISettings>({
+	isOpened: false
+});
 
 export function openSettings() {
-  Settings.set({
-    isOpened: true
-  })
+	Settings.set({
+		isOpened: true
+	});
 }
 
 export function closeSettings() {
-  Settings.set({
-    isOpened: false
-  })
+	Settings.set({
+		isOpened: false
+	});
 }

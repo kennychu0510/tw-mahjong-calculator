@@ -4,22 +4,19 @@
 	import {
 		Button,
 		Modal,
-		NumberInput,
 		Space,
 		Text,
 		TextInput,
 		UnstyledButton,
-		Switch,
 		Checkbox
 	} from '@svelteuidev/core';
 	import Color from '../colors';
 	import { gameStore } from '../store/Game';
-	import { Position, type IPlayer, type IGame } from '../types';
+	import { Position, type IGame } from '../types';
 	import { Settings, closeSettings, openSettings } from '../store/Settings';
 	import { onMount } from 'svelte';
-	import { fly, slide } from 'svelte/transition';
-
-	$: playerN = $gameStore.players.N.name;
+	
+$: playerN = $gameStore.players.N.name;
 	$: playerE = $gameStore.players.E.name;
 	$: playerS = $gameStore.players.S.name;
 	$: playerW = $gameStore.players.W.name;

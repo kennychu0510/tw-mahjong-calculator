@@ -1,6 +1,5 @@
 <script>
 	import Header from './Header.svelte';
-	import ScoreBoard from '../components/ScoreBoard.svelte';
 	import './styles.css';
 	import { SvelteUIProvider } from '@svelteuidev/core';
 </script>
@@ -11,7 +10,7 @@
 
 		<main>
 			<slot />
-		</main>		
+		</main>
 	</div>
 </SvelteUIProvider>
 
@@ -31,8 +30,6 @@
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
-
-	
 
 	@media (min-width: 480px) {
 		footer {

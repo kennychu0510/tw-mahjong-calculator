@@ -2,7 +2,6 @@
 	import { fade, fly } from 'svelte/transition';
 	import ScoreBadge from './ScoreBadge.svelte';
 	import { Space, Text } from '@svelteuidev/core';
-	import type { PlayerScore } from '../types';
 	import { gameStore } from '../store/Game';
 
 	export let round: number;
@@ -39,11 +38,11 @@
 					<Space w={5} />
 					<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}
 						>{eatType}</Text
-            >
-            <Space w={5} />
+					>
+					<Space w={5} />
 					{#if gameRound.winningDetails.mode === 'receive'}
 						<Text size="xl">{loser}</Text>
-            <Space w={5} />
+						<Space w={5} />
 					{/if}
 					<Text size="xl" variant="gradient" gradient={{ from: 'orange', to: 'red', deg: 45 }}
 						>{totalScore}</Text

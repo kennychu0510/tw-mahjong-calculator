@@ -1,5 +1,5 @@
 const Color = {
-  orange: '#ff3e00'
-} as const 
+	orange: '#ff3e00'
+} as const;
 
-export default Color
+export default Color;

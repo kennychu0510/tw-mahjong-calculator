@@ -1,10 +1,6 @@
 <script lang="ts">
 	import { Button } from '@svelteuidev/core';
-	import {
-		addScoreHelper,
-		calculatorStore,
-		subtractScoreHelper
-	} from '../store/Calculator';
+	import { addScoreHelper, calculatorStore, subtractScoreHelper } from '../store/Calculator';
 	import type { Score } from '../types';
 
 	export let item: Score;
@@ -32,11 +28,17 @@
 </script>
 
 {#if isClicked}
-	<Button fullSize variant="gradient" on:click={removeScore} gradient={{ from: 'teal', to: 'blue', deg: 60 }}
-		>✓</Button
+	<Button
+		fullSize
+		variant="gradient"
+		on:click={removeScore}
+		gradient={{ from: 'teal', to: 'blue', deg: 60 }}>✓</Button
 	>
 {:else}
-	<Button fullSize variant="gradient" on:click={addScore} gradient={{ from: 'orange', to: 'red', deg: 45 }}
-		>+</Button
+	<Button
+		fullSize
+		variant="gradient"
+		on:click={addScore}
+		gradient={{ from: 'orange', to: 'red', deg: 45 }}>+</Button
 	>
 {/if}

@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { Position, type IGame } from '../types';
-import { persisted } from 'svelte-local-storage-store'
+import { persisted } from 'svelte-local-storage-store';
 
 export const gameStore = persisted<IGame>('gameRecord', {
 	players: {
@@ -22,7 +22,7 @@ export const gameStore = persisted<IGame>('gameRecord', {
 		}
 	},
 	results: []
-})
+});
 
 // export const gameStore = writable<IGame>({
 // 	players: {

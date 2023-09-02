@@ -12,8 +12,7 @@
 <section>
 	<Calculator />
 	<ScrollToTop />
-	<ScoreBoard/>
-
+	<ScoreBoard />
 </section>
 <footer>
 	<p>番數表: <a href="http://www.twmahjong.com/">http://www.twmahjong.com/</a></p>

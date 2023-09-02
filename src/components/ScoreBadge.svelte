@@ -35,7 +35,7 @@
 	}
 </script>
 
-<Badge {color} size="lg" class={classes.item} on:click={removeScore} >
+<Badge {color} size="lg" class={classes.item} on:click={removeScore}>
 	{score.name}
 	<svelte:fragment slot="rightSection">
 		{score.points}

@@ -43,6 +43,7 @@
 		"@svelteuidev/composables": "^0.15.3",
 		"@svelteuidev/core": "^0.15.3",
 		"@types/uuid": "^9.0.3",
+		"eslint-plugin-unused-imports": "^3.0.0",
 		"radix-icons-svelte": "^1.2.1",
 		"svelte-local-storage-store": "^0.6.0",
 		"svelte-scrolling": "^1.2.2",
